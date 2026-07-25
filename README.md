@@ -1,41 +1,85 @@
-# Digital Heros - Lead Management System
+# LeadDesk Mini
 
-A full-stack Lead Management application that allows potential customers to submit enquiries through a public landing page while providing administrators with a secure dashboard to manage incoming leads.
+A full-stack lead management application built as part of the **Digital Heroes Internship Qualification Task**.
 
-The application is built using **React**, **Spring Boot**, and **MySQL**, and is deployed using **Vercel**, **Render**, and **Railway**.
+The application consists of a public landing page where potential customers can submit enquiries and a secure admin dashboard where authorized users can view, search, and manage submitted leads.
 
 ---
 
-## Features
+## Live Demo
 
-### Public Landing Page
-- Submit lead enquiries with:
-  - Name
-  - Email
-  - Budget Range
-  - Message
-- Client-side and server-side validation
-- Stores submissions securely in a MySQL database
+**Landing Page:** https://your-vercel-url.vercel.app
 
-### Admin Dashboard
-- Secure JWT-based authentication
+**Admin Dashboard:** https://your-vercel-url.vercel.app/admin
+
+**Backend API:** https://digital-heros-mmyr.onrender.com
+
+---
+
+## Test Credentials
+
+Username: `admin`
+
+Password: `Admin@123`
+
+---
+
+# Features
+
+## Public Landing Page
+
+Visitors can submit a lead by filling out:
+
+- Name
+- Email
+- Budget Range
+- Message
+
+### Validation
+
+Client-side validation:
+- Required fields
+- Email format validation
+- Budget selection
+
+Server-side validation:
+- Bean Validation using Jakarta Validation
+- Invalid requests return appropriate HTTP responses
+
+Submitted leads are stored in a MySQL database.
+
+---
+
+## Admin Dashboard
+
+The admin dashboard provides:
+
+- Secure login
 - View all submitted leads
 - Search leads by name or email
 - Update lead status
-- View submission details
-- Protected API endpoints
+
+Lead statuses include:
+
+- New
+- Contacted
+- Closed
+
+Only authenticated administrators can access protected endpoints.
 
 ---
 
-## Tech Stack
+# Tech Stack
 
-### Frontend
+## Frontend
+
 - React
 - Vite
 - Axios
 - CSS
 
-### Backend
+## Backend
+
 - Java 17
 - Spring Boot
 - Spring Security
@@ -43,101 +87,143 @@ The application is built using **React**, **Spring Boot**, and **MySQL**, and is
 - JWT Authentication
 - Maven
 
-### Database
-- MySQL (Railway)
-
-### Deployment
-- Frontend: Vercel
-- Backend: Render
-- Database: Railway
-
----
-
-## Project Structure
-
-```
-digital-heros/
-│
-├── frontend/          # React application
-│
-└── backend/           # Spring Boot REST API
-    ├── controller
-    ├── service
-    ├── repository
-    ├── entity
-    ├── security
-    └── dto
-```
-
----
-
-## Authentication
-
-The admin dashboard is protected using **JSON Web Tokens (JWT)**.
-
-1. Admin logs in using username and password.
-2. Backend validates the credentials.
-3. A JWT token is generated and returned.
-4. The frontend stores the token.
-5. All protected API requests include the token in the `Authorization` header.
-
----
-
-## API Endpoints
-
-### Public APIs
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| POST | `/api/auth/login` | Admin login |
-| POST | `/api/leads` | Submit a new lead |
-
-### Protected APIs
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| GET | `/api/leads` | Get all leads |
-| GET | `/api/leads/{id}` | Get lead by ID |
-| PUT | `/api/leads/{id}` | Update lead status |
-
----
-
 ## Database
 
-Each lead contains:
+- MySQL (Railway)
 
-- Name
-- Email
-- Budget Range
-- Message
-- Status
-- Created Timestamp
+## Deployment
 
-The application also stores administrator credentials securely using **BCrypt password hashing**.
+Frontend:
+- Vercel
 
----
+Backend:
+- Render
 
-## Security
-
-- Spring Security
-- BCrypt password encryption
-- JWT authentication
-- Stateless sessions
-- CORS configuration for frontend deployment
-- Endpoint authorization based on authentication
+Database:
+- Railway
 
 ---
 
-## Running Locally
+# Data Model
 
-### Backend
+## Lead
+
+| Field | Type |
+|--------|------|
+| id | Long |
+| name | String |
+| email | String |
+| budgetRange | String |
+| message | String |
+| status | Enum (NEW, CONTACTED, CLOSED) |
+| createdAt | Timestamp |
+
+---
+
+## User
+
+| Field | Type |
+|--------|------|
+| id | Long |
+| username | String |
+| email | String |
+| passwordHash | String (BCrypt) |
+| role | String |
+| active | Boolean |
+
+---
+
+# Authentication
+
+The admin dashboard is secured using **JWT (JSON Web Tokens)**.
+
+Authentication flow:
+
+1. Admin logs in with username and password.
+2. Spring Security validates the credentials.
+3. Passwords are verified using BCrypt hashing.
+4. A signed JWT is generated.
+5. The frontend stores the token.
+6. Every protected request sends:
+
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+
+7. A custom JWT filter validates the token before granting access.
+
+Sessions are stateless and handled entirely through JWT.
+
+---
+
+# API Endpoints
+
+## Public APIs
+
+### Login
+
+```
+POST /api/auth/login
+```
+
+Returns a JWT token after successful authentication.
+
+---
+
+### Submit Lead
+
+```
+POST /api/leads
+```
+
+Creates a new lead.
+
+---
+
+## Protected APIs
+
+### Get All Leads
+
+```
+GET /api/leads
+```
+
+Returns all leads.
+
+---
+
+### Get Lead
+
+```
+GET /api/leads/{id}
+```
+
+Returns a single lead.
+
+---
+
+### Update Lead Status
+
+```
+PUT /api/leads/{id}
+```
+
+Updates the lead status.
+
+Requires authentication.
+
+---
+
+# Running Locally
+
+## Backend
 
 ```bash
 cd backend
 mvn spring-boot:run
 ```
 
-### Frontend
+## Frontend
 
 ```bash
 cd frontend
@@ -147,11 +233,9 @@ npm run dev
 
 ---
 
-## Environment Variables
+# Environment Variables
 
-### Backend
-
-```properties
+```
 DB_URL=
 DB_USERNAME=
 DB_PASSWORD=
@@ -166,29 +250,83 @@ ADMIN_PASSWORD=
 
 ---
 
-## Deployment
+# Deployment
 
-| Service | Platform |
-|----------|----------|
+| Component | Platform |
+|------------|----------|
 | Frontend | Vercel |
 | Backend | Render |
 | Database | Railway |
 
 ---
 
-## Future Improvements
+# Project Structure
+
+```
+backend/
+ ├── controller
+ ├── dto
+ ├── entity
+ ├── exception
+ ├── repository
+ ├── security
+ ├── service
+
+frontend/
+ ├── components
+ ├── pages
+ ├── services
+ ├── App.jsx
+```
+
+---
+
+# Future Improvements
 
 - Pagination
-- Sorting and filtering
+- Sorting
+- Better filtering
 - Delete leads
 - Email notifications
 - Dashboard analytics
-- Role-based access control
+- Multiple admin users
+- Role-based authorization
 - Refresh tokens
-- Password reset functionality
-- Docker support
 - Unit and integration tests
+- Docker support
 
+---
+
+# Qualification Task Requirements
+
+## Task A
+
+-  Public landing page
+-  Client-side validation
+-  Server-side validation
+-  Real MySQL database
+-  Admin dashboard
+-  Search functionality
+-  Lead status management
+
+## Task B
+
+-  Secure JWT authentication
+-  BCrypt password hashing
+-  Fully deployed application
+-  Stateless authentication
+-  README documentation
+-  Ready for Loom walkthrough
+
+---
+
+## Footer Credit
+
+The application includes the required footer:
+
+**Built for Digital Heroes Training Task**
+
+linked to **https://digitalheroesco.com**
 
 ---
 
@@ -196,6 +334,6 @@ ADMIN_PASSWORD=
 
 **Rucha Pathak**
 
-- BITS Pilani, Goa Campus
-- Computer Science
-- Full Stack Developer
+BITS Pilani, Goa Campus
+
+Computer Science
