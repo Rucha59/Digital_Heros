@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: digital-heros
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/digitalheros?useSSL=false&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:Rucha#123}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    show-sql: ${JPA_SHOW_SQL:false}
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+jwt:
+  # Supply JWT_SECRET as a Base64-encoded key of at least 256 bits outside local development.
+  secret: ${JWT_SECRET:Q2hhbmdlVGhpc0Rldk9ubHlTZWNyZXRLZXlGb3JIUzI1NkF0TGVhc3QzMkJ5dGVz}
+  expiration-ms: ${JWT_EXPIRATION_MS:3600000}
+
+app:
+  admin:
+    username: ${ADMIN_USERNAME:admin}
+    email: ${ADMIN_EMAIL:admin@digitalheros.local}
+    password: ${ADMIN_PASSWORD:Admin@123}
