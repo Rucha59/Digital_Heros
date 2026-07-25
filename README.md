@@ -8,9 +8,10 @@ The application consists of a public landing page where potential customers can 
 
 ## Live Demo
 
-**Landing Page:** https://your-vercel-url.vercel.app
+**Landing Page:** [https://digital-heros-qfxa8kdpb-rucha3.vercel.app/](https://digital-heros-qfxa8kdpb-rucha3.vercel.app/)
 
-**Admin Dashboard:** https://your-vercel-url.vercel.app/admin
+**Admin Dashboard:**  https://digital-heros-qfxa8kdpb-rucha3.vercel.app/login   
+  Note: (is accessible only through the landing page)
 
 **Backend API:** https://digital-heros-mmyr.onrender.com
 
