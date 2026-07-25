@@ -1,12 +1,16 @@
-import axios from 'axios'
-import { getToken } from '../utils/token'
+import axios from "axios";
+import { getToken } from "../utils/token";
 
-const api = axios.create({ baseURL: '/api' })
+const api = axios.create({
+  baseURL: "https://digital-heros-mmyr.onrender.com/api",
+});
 
 api.interceptors.request.use((config) => {
-  const token = getToken()
-  if (token) config.headers.Authorization = `Bearer ${token}`
-  return config
-})
+  const token = getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
-export default api
+export default api;
