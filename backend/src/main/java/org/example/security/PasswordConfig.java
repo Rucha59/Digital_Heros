@@ -28,8 +28,8 @@ public class PasswordConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of(
-                "https://digital-heros-nqzllvuin-rucha3.vercel.app"
+        configuration.setAllowedOriginPatterns(List.of(
+                "https://*.vercel.app"
         ));
 
         configuration.setAllowedMethods(List.of(
